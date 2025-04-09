@@ -53,7 +53,13 @@ export const getUserMetadata = cache(async () => {
 
   return unstable_cache(
     async () => {
-      return getUserAuthMetadata(supabase);
+      const metadata = await getUserAuthMetadata(supabase);
+      if (!metadata) return null;
+
+      return {
+        ...metadata,
+        avatar_url: session.user.user_metadata?.avatar_url,
+      };
     },
     ["user-metadata", session.user.id],
     {

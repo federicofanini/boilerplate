@@ -31,12 +31,14 @@ export async function NavUser() {
 
   if (!userData) return null;
 
-  const signOut = async () => {
+  const avatarUrl = userData.avatar_url;
+
+  async function signOut() {
     "use server";
     const supabase = await createClient();
     await supabase.auth.signOut();
     redirect("/");
-  };
+  }
 
   return (
     <SidebarMenu>
@@ -49,7 +51,7 @@ export async function NavUser() {
             >
               <Avatar className="h-8 w-8 rounded-lg">
                 <AvatarImage
-                  src={userData.avatar_url || undefined}
+                  src={avatarUrl}
                   alt={userData.full_name}
                   className="rounded-lg"
                 />
@@ -79,7 +81,7 @@ export async function NavUser() {
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
                   <AvatarImage
-                    src={userData.avatar_url || undefined}
+                    src={avatarUrl}
                     alt={userData.full_name}
                     className="rounded-lg"
                   />
