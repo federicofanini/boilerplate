@@ -25,11 +25,25 @@ import {
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { getUserMetadata } from "@/utils/supabase/cached-queries";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export async function NavUser() {
   const userData = await getUserMetadata();
 
-  if (!userData) return null;
+  if (!userData) {
+    return (
+      <SidebarMenu className="flex w-full">
+        <SidebarMenuItem className="w-full">
+          <Link href="/login" className="w-full">
+            <Button variant="outline" size="lg" className="w-full">
+              Sign in
+            </Button>
+          </Link>
+        </SidebarMenuItem>
+      </SidebarMenu>
+    );
+  }
 
   const avatarUrl = userData.avatar_url;
 

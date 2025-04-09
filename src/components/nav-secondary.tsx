@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/sidebar";
 
 import { sidebarItems } from "@/lib/sidebar-item";
+import { ThemeSwitch } from "@/components/theme-switch";
 
 export function NavSecondary({
   ...props
@@ -47,6 +48,9 @@ export function NavSecondary({
               </SidebarMenuItem>
             );
           })}
+          <SidebarMenuItem>
+            <ThemeSwitch />
+          </SidebarMenuItem>
         </SidebarMenu>
       </SidebarGroupContent>
     </SidebarGroup>

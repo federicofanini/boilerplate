@@ -48,11 +48,11 @@ export const sidebarItems = {
     },
   ],
   navSecondary: [
-    {
-      title: "Feedback",
-      url: "/dashboard/feedback",
-      icon: Feather,
-    },
+    // {
+    //   title: "Feedback",
+    //   url: "/dashboard/feedback",
+    //   icon: Feather,
+    // },
     {
       title: "Contribute",
       url: "https://github.com/federicofanini/gymbrah.com",

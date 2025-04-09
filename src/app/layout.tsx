@@ -8,6 +8,10 @@ import type { Metadata, Viewport } from "next";
 import { Provider as Analytics } from "@/utils/events/client";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
+import { SidebarInset } from "@/components/ui/sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/app-sidebar";
+import { DashboardHeader } from "@/components/dashboard-header";
 
 export const metadata: Metadata = constructMetadata({
   title: `${siteConfig.name} | ${siteConfig.description}`,
@@ -42,7 +46,15 @@ export default function RootLayout({
           defaultTheme="dark"
           enableSystem={false}
         >
-          {children}
+          <SidebarProvider>
+            <AppSidebar />
+            <SidebarInset>
+              <DashboardHeader />
+              <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+                {children}
+              </div>
+            </SidebarInset>
+          </SidebarProvider>
           <TailwindIndicator />
         </ThemeProvider>
         <Toaster />

@@ -23,7 +23,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild className="border-b">
-              <Link href="/dashboard">
+              <Link href="/">
                 <Image
                   src="/logo.svg"
                   alt="Logo"

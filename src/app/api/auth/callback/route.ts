@@ -53,7 +53,7 @@ export async function GET(req: NextRequest) {
           .single();
 
         const redirectPath =
-          !userError && userData?.full_name ? "/dashboard" : "/onboarding";
+          !userError && userData?.full_name ? "/" : "/onboarding";
         const forwardedHost = req.headers.get("x-forwarded-host");
         const isLocalEnv = process.env.NODE_ENV === "development";
 
