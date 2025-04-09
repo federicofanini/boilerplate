@@ -1,7 +1,7 @@
 import { type EmailOtpType } from "@supabase/supabase-js";
 import { type NextRequest } from "next/server";
 import { createClient } from "@/utils/supabase/server";
-import { redirect } from "next/navigation";
+import { prisma } from "@/lib/db";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -19,35 +19,25 @@ export async function GET(request: NextRequest) {
     if (!error && data.user) {
       try {
         // Check if user already exists
-        const { data: existingUser, error: checkError } = await supabase
-          .from("user")
-          .select()
-          .eq("email", data.user.email)
-          .single();
-
-        if (checkError && checkError.code !== "PGRST116") {
-          console.error("Error checking user:", checkError);
-          return Response.redirect(new URL("/error", request.url));
-        }
+        const existingUser = await prisma.user.findUnique({
+          where: {
+            email: data.user.email,
+          },
+        });
 
         // Skip if user already exists
         if (!existingUser) {
-          const now = new Date().toISOString();
-          // Create initial user record using Supabase
-          const { error: insertError } = await supabase.from("user").insert([
-            {
-              id: data.user.id,
-              email: data.user.email,
-              full_name: "", // Will be filled during onboarding
-              created_at: now,
-              updated_at: now,
-            },
-          ]);
+          // Get avatar URL from user metadata if available
+          const fullName = data.user.user_metadata?.full_name || null;
 
-          if (insertError) {
-            console.error("Error creating user:", insertError);
-            return Response.redirect(new URL("/error", request.url));
-          }
+          // Create initial user record using Prisma
+          await prisma.user.create({
+            data: {
+              id: data.user.id,
+              email: data.user.email ?? "",
+              full_name: fullName ?? "",
+            },
+          });
         }
 
         // redirect user to onboarding to complete profile
